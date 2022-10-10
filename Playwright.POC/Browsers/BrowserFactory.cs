@@ -4,26 +4,33 @@ using Microsoft.Playwright;
 
 namespace Playwright.POC.Browsers
 {
-    public static class BrowserFactory
+    public class BrowserFactory : IBrowserFactory
     {
-        public static async Task<IBrowser> LaunchBrowser(bool isHeadless = true)
+        private readonly bool _isHeadless;
+
+        public BrowserFactory(bool isHeadless)
         {
-            return await GetChromeBrowser(isHeadless);
+            _isHeadless = isHeadless;
+        }
+
+        public async Task<IBrowser> LaunchBrowser()
+        {
+            return await GetChromeBrowser();
         }
         
-        public static async Task<IBrowser> LaunchBrowser(string browserName, bool isHeadless = true)
+        public async Task<IBrowser> LaunchBrowser(string browserName)
         {
             return browserName.ToLower() switch
             {
-                "chrome" => await GetChromeBrowser(isHeadless),
-                "edge" => await GetEdgeBrowser(isHeadless),
-                "firefox" => await GetFirefoxBrowser(isHeadless),
-                "webkit" => await GetWebkitBrowser(isHeadless),
-                _ => throw new Exception("")
+                "chrome" => await GetChromeBrowser(),
+                "edge" => await GetEdgeBrowser(),
+                "firefox" => await GetFirefoxBrowser(),
+                "webkit" => await GetWebkitBrowser(),
+                _ => throw new Exception("Invalid browser passed, accepted browsers are: ")
             };
         }
 
-        private static async Task<IBrowser> GetChromeBrowser(bool isHeadless)
+        private async Task<IBrowser> GetChromeBrowser()
         {
             using var playwright = await Microsoft.Playwright.Playwright.CreateAsync();
             var chromium = playwright.Chromium;
@@ -31,38 +38,38 @@ namespace Playwright.POC.Browsers
             return await playwright.Chromium.LaunchAsync(new BrowserTypeLaunchOptions
             {
                 Channel = "chrome", 
-                Headless = isHeadless
+                Headless = _isHeadless
             });
         }
         
-        private static async Task<IBrowser> GetEdgeBrowser(bool isHeadless)
+        private async Task<IBrowser> GetEdgeBrowser()
         {
             using var playwright = await Microsoft.Playwright.Playwright.CreateAsync();
 
             return await playwright.Chromium.LaunchAsync(new BrowserTypeLaunchOptions
             {
                 Channel = "msedge",
-                Headless = isHeadless
+                Headless = _isHeadless
             });
         }
         
-        private static async Task<IBrowser> GetFirefoxBrowser(bool isHeadless)
+        private async Task<IBrowser> GetFirefoxBrowser()
         {
             using var playwright = await Microsoft.Playwright.Playwright.CreateAsync();
 
             return await playwright.Firefox.LaunchAsync(new BrowserTypeLaunchOptions
             {
-                Headless = isHeadless
+                Headless = _isHeadless
             });
         }
         
-        private static async Task<IBrowser> GetWebkitBrowser(bool isHeadless)
+        private async Task<IBrowser> GetWebkitBrowser()
         {
             using var playwright = await Microsoft.Playwright.Playwright.CreateAsync();
 
             return await playwright.Webkit.LaunchAsync(new BrowserTypeLaunchOptions
             {
-                Headless = isHeadless
+                Headless = _isHeadless
             });
         }
     }

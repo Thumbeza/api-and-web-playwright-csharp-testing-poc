@@ -14,9 +14,10 @@ namespace Playwright.POC.Tests
 
         public BaseFixture()
         {
+            var browserFactory = new BrowserFactory(true);
             //PageLoader = new PageLoader();
             Profile = TestProfileFactory.GetDefaultProfile();
-            Browser = BrowserFactory.LaunchBrowser().Result;
+            Browser = browserFactory.LaunchBrowser().Result;
         }
 
         public void Dispose()
