@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Microsoft.Playwright;
+using Playwright.POC.TestData;
 
 namespace Playwright.POC.Browsers
 {
@@ -11,6 +12,11 @@ namespace Playwright.POC.Browsers
         public BrowserHelpers(IPage page)
         {
             _page = page;
+        }
+
+        public async Task Goto()
+        {
+            await _page.GotoAsync(Url.SwagLabs);
         }
 
         public async Task<string> TakeScreenshot()
