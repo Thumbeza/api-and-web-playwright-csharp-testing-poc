@@ -33,8 +33,7 @@ namespace Playwright.POC.Browsers
         private async Task<IBrowser> GetChromeBrowser()
         {
             using var playwright = await Microsoft.Playwright.Playwright.CreateAsync();
-            var chromium = playwright.Chromium;
-            
+
             return await playwright.Chromium.LaunchAsync(new BrowserTypeLaunchOptions
             {
                 Channel = "chrome", 
