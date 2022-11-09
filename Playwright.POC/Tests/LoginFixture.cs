@@ -1,26 +1,54 @@
-﻿using FluentAssertions;
+﻿using System.Threading.Tasks;
+using FluentAssertions;
+using Microsoft.Playwright;
+using NUnit.Framework;
 using Playwright.POC.Browsers;
 using Playwright.POC.PageObjects;
-using Xunit;
+using Playwright.POC.TestData;
+using TestParameters = Playwright.POC.TestData.TestParameters;
 
 namespace Playwright.POC.Tests
 {
     public class SampleFixture
     {
-        [Fact]
-        public async void LoginWithCorrectCredentials()
+        private IBrowser _browser;
+        private IPage _page;
+        
+        [SetUp]
+        public async Task Setup()
         {
             var browserFactory = new BrowserFactory(false);
 
-            var browser = await browserFactory.LaunchBrowser("edge");
-            var page = await browser.NewPageAsync();
+            _browser = await browserFactory.LaunchBrowser("edge");
+            
+            _page = await _browser.NewPageAsync(new BrowserNewPageOptions
+            {
+                BaseURL = Url.SwagLabs,
+                ColorScheme = ColorScheme.Dark
+            });
+        }
 
-            var signInPage = new SignInPage(page);
+        [Test]
+        public async Task LoginWithCorrectCredentials()
+        {
+            var signInPage = new SignInPage(_page);
+            var isLoginPageVisible = await signInPage.IsPageVisibleAsync();
 
-            await signInPage.LaunchUrl();
-            var isPageVisible = await signInPage.IsPageVisible();
+            isLoginPageVisible.Should().BeTrue();
 
-            isPageVisible.Should().BeTrue();
+            await signInPage.LoginToExporter(Users.StandardUser, TestParameters.Password);
+
+            var landingPage = new LandingPage(_page);
+            var isLandingPageVisible = await landingPage.IsPageVisibleAsync();
+
+            isLandingPageVisible.Should().BeTrue();
+        }
+
+        [TearDown]
+        public async Task Teardown()
+        {
+            await _page.CloseAsync();
+            await _browser.CloseAsync();
         }
     }
 }
