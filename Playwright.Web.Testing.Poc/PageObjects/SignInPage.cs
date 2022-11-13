@@ -1,8 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.Playwright;
-using Playwright.POC.Browsers;
 
-namespace Playwright.POC.PageObjects
+namespace Playwright.Web.Testing.Poc.PageObjects
 {
     public class SignInPage : Pages
     {

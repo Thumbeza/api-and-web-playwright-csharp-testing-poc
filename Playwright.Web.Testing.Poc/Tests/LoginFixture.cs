@@ -2,14 +2,15 @@
 using FluentAssertions;
 using Microsoft.Playwright;
 using NUnit.Framework;
-using Playwright.POC.Browsers;
-using Playwright.POC.PageObjects;
-using Playwright.POC.TestData;
-using TestParameters = Playwright.POC.TestData.TestParameters;
+using Playwright.Web.Testing.Poc.Browsers;
+using Playwright.Web.Testing.Poc.PageObjects;
+using Playwright.Web.Testing.Poc.TestData;
+using TestParameters = Playwright.Web.Testing.Poc.TestData.TestParameters;
 
-namespace Playwright.POC.Tests
+namespace Playwright.Web.Testing.Poc.Tests
 {
-    public class SampleFixture
+    //Login fixture utilising page object model to generate tests
+    public class LoginFixture
     {
         private IBrowser _browser;
         private IPage _page;
@@ -27,7 +28,7 @@ namespace Playwright.POC.Tests
                 ColorScheme = ColorScheme.Dark
             });
         }
-
+        
         [Test]
         public async Task LoginWithCorrectCredentials()
         {
@@ -43,7 +44,7 @@ namespace Playwright.POC.Tests
 
             isLandingPageVisible.Should().BeTrue();
         }
-
+        
         [TearDown]
         public async Task Teardown()
         {

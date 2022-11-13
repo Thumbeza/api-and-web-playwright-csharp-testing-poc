@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.Playwright;
 
-namespace Playwright.POC.Browsers
+namespace Playwright.Web.Testing.Poc.Browsers
 {
     public interface IBrowserFactory
     {

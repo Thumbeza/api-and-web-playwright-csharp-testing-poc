@@ -1,6 +1,6 @@
-﻿using Playwright.POC.Utils;
+﻿using Playwright.Web.Testing.Poc.Utils;
 
-namespace Playwright.POC.TestData
+namespace Playwright.Web.Testing.Poc.TestData
 {
     public static class Users
     {

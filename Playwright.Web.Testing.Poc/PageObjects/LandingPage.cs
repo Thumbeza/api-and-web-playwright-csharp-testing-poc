@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.Playwright;
 
-namespace Playwright.POC.PageObjects
+namespace Playwright.Web.Testing.Poc.PageObjects
 {
     public class LandingPage : Pages
     {

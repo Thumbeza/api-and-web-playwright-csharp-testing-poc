@@ -1,4 +1,4 @@
-﻿namespace Playwright.POC.TestData
+﻿namespace Playwright.Web.Testing.Poc.TestData
 {
     public static class Url
     {

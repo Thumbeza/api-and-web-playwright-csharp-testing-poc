@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace Playwright.POC.Utils
+namespace Playwright.Web.Testing.Poc.Utils
 {
     public static class EnvironmentVariables
     {
