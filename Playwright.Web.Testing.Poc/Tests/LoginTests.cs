@@ -2,18 +2,19 @@
 using FluentAssertions;
 using Microsoft.Playwright;
 using NUnit.Framework;
+using Playwright.Web.Testing.Poc.Assembly;
 using Playwright.Web.Testing.Poc.Browsers;
-using Playwright.Web.Testing.Poc.PageObjects;
 using Playwright.Web.Testing.Poc.TestData;
 using TestParameters = Playwright.Web.Testing.Poc.TestData.TestParameters;
 
 namespace Playwright.Web.Testing.Poc.Tests
 {
     //Login fixture utilising page object model to generate tests
-    public class LoginFixture
+    public class LoginTests
     {
         private IBrowser _browser;
         private IPage _page;
+        private PageLoader _pageLoader;
         
         [SetUp]
         public async Task Setup()
@@ -27,20 +28,20 @@ namespace Playwright.Web.Testing.Poc.Tests
                 BaseURL = Url.SwagLabs,
                 ColorScheme = ColorScheme.Dark
             });
+
+            _pageLoader = new PageLoader(_page);
         }
         
         [Test]
         public async Task LoginWithCorrectCredentials()
         {
-            var signInPage = new SignInPage(_page);
-            var isLoginPageVisible = await signInPage.IsPageVisibleAsync();
+            var isLoginPageVisible = await _pageLoader.SignInPage.IsPageVisibleAsync();
 
             isLoginPageVisible.Should().BeTrue();
 
-            await signInPage.LoginToExporter(Users.StandardUser, TestParameters.Password);
+            await _pageLoader.SignInPage.LoginToExporter(Users.StandardUser, TestParameters.Password);
 
-            var landingPage = new LandingPage(_page);
-            var isLandingPageVisible = await landingPage.IsPageVisibleAsync();
+            var isLandingPageVisible = await _pageLoader.LandingPage.IsPageVisibleAsync();
 
             isLandingPageVisible.Should().BeTrue();
         }
